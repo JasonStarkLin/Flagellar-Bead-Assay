@@ -141,7 +141,8 @@ def GetBeadsPosition(folder,Targetfile, window_size, bead_xy, **kwargs):
 def GetSpeed(PositionData, Steps_N, Fps,FT_Output=False,**kwargs):
     #PositionData.reset_index(drop=True)
     P_cmp = 1j * PositionData["y-Center"]
-    P_cmp = P_cmp + PositionData["x-Center"]  # position complex Z = x +yi
+    P_cmp = P_cmp + PositionData["x-Center"] # position complex Z = x +yi
+    P_cmp = P_cmp.values # transform the Pandas series to np array.
     N_Speed = len(P_cmp) // Steps_N
     SpeedSheet = pd.DataFrame(columns=["Frame", "DateTime", "Speed(Hz)"])
     #print(len(P_cmp))
