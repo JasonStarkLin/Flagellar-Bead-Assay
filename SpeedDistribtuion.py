@@ -112,7 +112,7 @@ for num,i in enumerate(Targetfile):
     print("     Image type: ", Image.pixel_type)
     print("     Frame Counts: ", len(Image))
 
-    ImageSTD = np.std(Image[:], axis=0)
+    ImageSTD = np.std(Image[0:100], axis=0)
     ThreImage = ImageSTD > np.mean(ImageSTD) + 7*np.std(ImageSTD)
     CloImage = closing(ThreImage,square(6))
     BI = clear_border(CloImage)
@@ -138,7 +138,7 @@ for num,i in enumerate(Targetfile):
         #ax.scatter(center[1],center[0],facecolors='none',edgecolor='g')
         ROIName = '-Bead-'+str("{:0>2d}".format(label))
         KeyLabel = Sample+ROIName
-        bead_xy = np.array([np.int(center[1]), np.int(center[0])])
+        bead_xy = np.array([int(center[1]), int(center[0])])
         if BA.EdgeTest(bead_xy,ImShape,Extensize= window_size):
             print("     ", KeyLabel)
             Bead_P = BA.GetBeadsPosition(folder, [i], window_size, bead_xy, ImageSave=False, Bead_label=ROIName)
