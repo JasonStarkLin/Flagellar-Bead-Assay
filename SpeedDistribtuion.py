@@ -91,8 +91,6 @@ print(Targetfile)
 #Check and Creating the exporting file folder
 FigFolder = ExpFolder+SampleName+"-OrbitResults\\"
 B_Label_Folder = ExpFolder+SampleName+"-Bead_Label\\"
-
-
 ExFolderConstr(FigFolder)
 ExFolderConstr(B_Label_Folder)
 
@@ -100,9 +98,7 @@ Bead_sheet = pd.DataFrame(columns=["Label","DateTime","X","Y","Speed(Hz)","FFT_p
                                    "e-minor","e-angle","e-FitQaulity","Eccentricity","AspectRatio","Opening angle(dgree)","Radius"])
 for num,i in enumerate(Targetfile):
 
-    #if num != 5:
-        #continue
-
+    #Open and input the image file
     Image = pims.open(folder+i)
     ImShape = np.shape(Image[0])
     Split_FileName = i.rsplit('.')
@@ -112,8 +108,9 @@ for num,i in enumerate(Targetfile):
     print("     Image type: ", Image.pixel_type)
     print("     Frame Counts: ", len(Image))
 
+    #Segment the likely rotating beads
     ImageSTD = np.std(Image[0:100], axis=0)
-    ThreImage = ImageSTD > np.mean(ImageSTD) + 7*np.std(ImageSTD)
+    ThreImage = ImageSTD > np.mean(ImageSTD) + 7*np.std(ImageSTD) #The value 7 in algorithm is derived from experience.
     CloImage = closing(ThreImage,square(6))
     BI = clear_border(CloImage)
     Label_image = sk_label(BI)
@@ -127,7 +124,7 @@ for num,i in enumerate(Targetfile):
         ax.scatter(center[1],center[0],facecolors='none',edgecolor='g')
         Bead_Name = str("{:0>2d}".format(label))
         ax.text(center[1], center[0], Bead_Name,fontsize=8, ha="right", va="bottom", color='yellow')
-    fig.savefig(B_Label_Folder+Sample + ".jpg")
+    fig.savefig(B_Label_Folder+Sample + ".png")
     plt.close(fig)
     #plt.show()
 
