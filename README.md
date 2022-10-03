@@ -1,5 +1,5 @@
 <h1 align="center">
-<img src="BeadsAssayLogo.svg" width="400">
+<img src="BeadsAssayLogo.png" width="400">
 </h1><br>
 
 Here collect my programs for analyzing the beads assay in the bacterial flagellar motor experiment.
