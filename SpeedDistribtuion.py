@@ -5,6 +5,7 @@ import numpy as np
 import pims
 import matplotlib.pyplot as plt
 
+from FunWriteROI import *
 from skimage.segmentation import clear_border
 from skimage.measure import label as sk_label
 from skimage.measure import regionprops
@@ -116,16 +117,21 @@ for num,i in enumerate(Targetfile):
     Label_image = sk_label(BI)
     Image_label_overlay = label2rgb(Label_image, image=ThreImage,bg_label=0)
 
-
+    ROIs=[]
     fig,ax = plt.subplots(figsize=(20.48,3.5))
     ax.imshow(Image[num],cmap="gray")
     for label,region in enumerate(regionprops(Label_image)):
         center = region.centroid
         ax.scatter(center[1],center[0],facecolors='none',edgecolor='g')
         Bead_Name = str("{:0>2d}".format(label))
+        left = int(center[1] - 12)
+        top = int(center[0]-12)
+        roi = RectRoi(left,top,24,24,name="Bead-"+Bead_Name)
+        ROIs.append(roi)
         ax.text(center[1], center[0], Bead_Name,fontsize=8, ha="right", va="bottom", color='yellow')
     fig.savefig(B_Label_Folder+Sample + ".png")
     plt.close(fig)
+    WriteRois(ROIs,B_Label_Folder,"LabelBeads")
     #plt.show()
 
     #continue
