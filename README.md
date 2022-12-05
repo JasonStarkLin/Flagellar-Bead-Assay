@@ -30,4 +30,4 @@ Here collect my programs for analyzing the beads assay in the bacterial flagella
 1.	Download this repository.
 2.	Open the file,”SpeedDistribution.py”
 3.	Set the parameters: folder, ExpFolder, SampleName, FPS, N_Frame, window_size
-4.	Run the program, it should show the progress.
+4.	Run the program, it should show the progress. The program would generate a analysis folder to store the results.
