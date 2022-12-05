@@ -64,7 +64,7 @@ def ExFolderConstr(Con_folder):
 
 
 folder = "C:\\Users\\LTS\\Desktop\\Bead Assay Data\\"
-ExpFolder = "C:\\Users\\LTS\\Desktop\\Bead Assay Data\Analysis\\"
+ExpFolder = "C:\\Users\\LTS\\Desktop\\Bead Assay Data\\Analysis\\"
 SampleName = '20201022-BE-Ibidi-853085'
 
 #folder = "D:\\NAS-TEMP_BE\\SpeedDistribution Debug\\"
