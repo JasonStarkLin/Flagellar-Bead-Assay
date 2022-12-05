@@ -12,7 +12,10 @@ Here collect my programs for analyzing the beads assay in the bacterial flagella
 -  Output the results in a CSV file, including speed, FFT peak, and ellipse fitting quality for further data filtration.
 
 ## Analyzing steps:
-<img src="Structure.jpg" width="300">
+<h1 align="center">
+<img src="Structure.jpg" width="600">
+</h1><br>
+
 1. Set the parameters.
 2. Search the files to analyze. (The program can only analyze video as a stack of file.)
 3. Loop the files.
@@ -22,3 +25,9 @@ Here collect my programs for analyzing the beads assay in the bacterial flagella
       1. Localize the bead's position in each frame by calling GetBeadsPosition function.
       2. Export the bead's orbit.
 4. Export the summary results for all the beads.
+
+## How to use:
+1.	Download this repository.
+2.	Open the file,”SpeedDistribution.py”
+3.	Set the parameters: folder, ExpFolder, SampleName, FPS, N_Frame, window_size
+4.	Run the program, it should show the progress.
