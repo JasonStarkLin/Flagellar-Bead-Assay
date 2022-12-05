@@ -131,7 +131,7 @@ for num,i in enumerate(Targetfile):
         ax.text(center[1], center[0], Bead_Name,fontsize=8, ha="right", va="bottom", color='yellow')
     fig.savefig(B_Label_Folder+Sample + ".png")
     plt.close(fig)
-    WriteRois(ROIs,B_Label_Folder,"LabelBeads")
+    WriteRois(ROIs,B_Label_Folder,"ROI_"+Sample)
     #plt.show()
 
     #continue
