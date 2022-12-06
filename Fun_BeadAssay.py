@@ -40,7 +40,7 @@ def progressBar(value, endvalue,ProText = "Progress:", bar_length=20):
     sys.stdout.write("\r      "+ProText+" [{0}] {1}%".format(arrow + spaces, int(round(percent * 100))))
     sys.stdout.flush()
 
-def GetBeadsPosition(folder,Targetfile, window_size, bead_xy, **kwargs):
+def GetBeadsPosition(folder,Targetfile, S_radius, bead_xy, **kwargs):
     '''
 
     Parameters
@@ -49,7 +49,9 @@ def GetBeadsPosition(folder,Targetfile, window_size, bead_xy, **kwargs):
         The destination for the files position.
     Targetfile : list
         The list includes all the name of the files which intend to calculate the position. The filename older in the list is the iterate sequence.
-    window_size : int or float
+    S_radius : int or float (unit: pixel)
+        The radius to open a square window.
+        Window size: (radius*2+1)^2
         The number that indicate how large the extended size to crop the images to calculate the position.
     bead_xy : 1d-array.
         A numpy array included 2D central posiiton of the target. (x,y)
@@ -70,7 +72,7 @@ def GetBeadsPosition(folder,Targetfile, window_size, bead_xy, **kwargs):
         Temp_image = pims.open(folder + i)
         N_Frames += len(Temp_image)
     Im_type = Temp_image.pixel_type
-    Crop_images = np.zeros((N_Frames, 2 * window_size + 1, 2 * window_size + 1), dtype=Im_type)
+    Crop_images = np.zeros((N_Frames, 2 * S_radius + 1, 2 * S_radius + 1), dtype=Im_type)
     frame_count = 0
     # Run for all the files
     # Import the transfer function for the beads position calibration.
@@ -106,8 +108,8 @@ def GetBeadsPosition(folder,Targetfile, window_size, bead_xy, **kwargs):
                 Crop_cent_x = bead_xy[0]
                 Crop_cent_y = bead_xy[1]
 
-            Crop_images[frame_count, :, :] = Image[j][Crop_cent_y - window_size:Crop_cent_y + window_size + 1,
-                                       Crop_cent_x - window_size:Crop_cent_x + window_size + 1]
+            Crop_images[frame_count, :, :] = Image[j][Crop_cent_y - S_radius:Crop_cent_y + S_radius + 1,
+                                       Crop_cent_x - S_radius:Crop_cent_x + S_radius + 1]
             #Kick out background
             temp = Crop_images[frame_count, :, :] * (Crop_images[frame_count, :, :] > np.average(Crop_images[frame_count, :, :]) + np.std(Crop_images[frame_count, :, :]))
             Cent = SpotCentral(temp, fun='Centroid')

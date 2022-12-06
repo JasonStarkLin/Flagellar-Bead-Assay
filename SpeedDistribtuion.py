@@ -63,17 +63,12 @@ def ExFolderConstr(Con_folder):
 
 
 
-folder = "C:\\Users\\LTS\\Desktop\\Bead Assay Data\\"
-ExpFolder = "C:\\Users\\LTS\\Desktop\\Bead Assay Data\\Analysis\\"
-SampleName = '20201022-BE-Ibidi-853085'
+folder = "C:\\Users\\LTS\\Desktop\\Bead Assay Data\\"                   #File folder that possesses files to analyze
+ExpFolder = "C:\\Users\\LTS\\Desktop\\Bead Assay Data\\Analysis\\"      #The destination that will output the data
+SampleName = '20201022-BE-Ibidi-853085'                                 #The filename that is going to be used while outputting.
 
-#folder = "D:\\NAS-TEMP_BE\\SpeedDistribution Debug\\"
-#SampleName = 'test'
-#ExpFolder = "D:\\NAS-TEMP_BE\\SpeedDistribution Debug\\test\\"
-
-FPS = 451
-N_frame = 450 # for one analysis section.
-window_size = 6 #my setting is 6
+FPS = 451 # Frame rate: frames per second.
+S_radius = 6 #The radius to open a square window (unit: pixel). Window size: (radius*2+1)^2
 
 temp_time = time.time()
 #Searching files.
@@ -104,10 +99,12 @@ for num,i in enumerate(Targetfile):
     ImShape = np.shape(Image[0])
     Split_FileName = i.rsplit('.')
     Sample = Split_FileName[0]
+    N_frame = len(Image) # Number of frames.
     print("File: ",num, i)
     print("     Frame Shape", np.shape(Image))
     print("     Image type: ", Image.pixel_type)
-    print("     Frame Counts: ", len(Image))
+    print("     Frame Counts: ", N_frame)
+
 
     #Segment the likely rotating beads
     ImageSTD = np.std(Image[0:100], axis=0)
@@ -142,9 +139,9 @@ for num,i in enumerate(Targetfile):
         ROIName = '-Bead-'+str("{:0>2d}".format(label))
         KeyLabel = Sample+ROIName
         bead_xy = np.array([int(center[1]), int(center[0])])
-        if BA.EdgeTest(bead_xy,ImShape,Extensize= window_size):
+        if BA.EdgeTest(bead_xy,ImShape,Extensize= S_radius):
             print("     ", KeyLabel)
-            Bead_P = BA.GetBeadsPosition(folder, [i], window_size, bead_xy, ImageSave=False, Bead_label=ROIName)
+            Bead_P = BA.GetBeadsPosition(folder, [i], S_radius, bead_xy, ImageSave=False, Bead_label=ROIName)
             Position_sheet = pd.DataFrame(Bead_P,columns=['Frames','DateTime', 'x-Center', 'y-Center'])
             Position_sheet = Position_sheet.infer_objects()
             xy_data = [Position_sheet["x-Center"].to_numpy(), Position_sheet["y-Center"].to_numpy()]
